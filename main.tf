@@ -1,0 +1,67 @@
+module "aviatrix-create-avtx-vpcs-area1" {
+  source         = "./create_vpcs_gws"
+  cloud_type     = 1
+  region         = var.aws_region1
+  account_name   = var.aws_account_name
+  spoke_gw_size  = var.aws_spoke_gw_size
+  avx_transit_gw = module.aviatrix-create-transit-aws-area1.avtx_gw_name
+  vpc_count      = 2
+
+  providers = {
+    aws = aws.east1
+  }
+}
+
+module "aviatrix-create-avtx-vnets-area1" {
+  source         = "./create_vpcs_gws"
+  cloud_type     = 8
+  region         = var.azure_region1
+  account_name   = var.azure_account_name
+  spoke_gw_size  = var.azure_spoke_gw_size
+  avx_transit_gw = module.aviatrix-create-transit-azure-area1.avtx_gw_name
+  vpc_count      = 2
+
+  providers = {
+    aws = aws.east1
+  }
+}
+
+module "aviatrix-create-transit-aws-area1" {
+  source         = "./transit_net"
+  cloud_type     = 1
+  region         = var.aws_region1
+  account_name   = var.aws_account_name
+  avtx_gw_size   = var.aws_transit_gw_size
+
+  providers = {
+    aws = aws.east1
+  }
+}
+
+module "aviatrix-create-transit-azure-area1" {
+  source         = "./transit_net"
+  cloud_type     = 8
+  region         = var.azure_region1
+  account_name   = var.azure_account_name
+  avtx_gw_size   = var.azure_transit_gw_size
+
+  providers = {
+    aws = aws.east1
+  }
+}
+
+resource "aviatrix_transit_gateway_peering" "test_transit_gateway_peering" {
+  transit_gateway_name1 = module.aviatrix-create-transit-aws-area1.avtx_gw_name
+  transit_gateway_name2 = module.aviatrix-create-transit-azure-area1.avtx_gw_name
+}
+
+resource "tls_private_key" "avtx_key" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+resource "local_file" "avtx_priv_key" {
+  content         = tls_private_key.avtx_key.private_key_pem
+  filename        = "avtx_priv_key.pem"
+  file_permission = "0400"
+}
