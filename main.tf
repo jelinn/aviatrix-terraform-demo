@@ -1,14 +1,3 @@
-
-
-module "transit-net" {
-  source  = "app.terraform.io/Aviatrix-TFC-JL/transit-net/aviatrix"
-  version = "0.0.2"
-}
-
-
-
-
-
 module "aviatrix-create-avtx-vpcs-area1" {
   source  = "app.terraform.io/Aviatrix-TFC-JL/vpc-gw/aviatrix"
   version = "0.0.2"
