@@ -1,5 +1,6 @@
 module "aviatrix-create-avtx-vpcs-area1" {
-  source         = "./create_vpcs_gws"
+  source  = "app.terraform.io/Aviatrix-TFC-JL/vpc-gw/aviatrix"
+  version = "0.0.2" 
   cloud_type     = 1
   region         = var.aws_region1
   account_name   = var.aws_account_name
@@ -13,7 +14,8 @@ module "aviatrix-create-avtx-vpcs-area1" {
 }
 
 module "aviatrix-create-avtx-vnets-area1" {
-  source         = "./create_vpcs_gws"
+  source  = "app.terraform.io/Aviatrix-TFC-JL/vpc-gw/aviatrix"
+  version = "0.0.2"
   cloud_type     = 8
   region         = var.azure_region1
   account_name   = var.azure_account_name
@@ -27,7 +29,8 @@ module "aviatrix-create-avtx-vnets-area1" {
 }
 
 module "aviatrix-create-transit-aws-area1" {
-  source         = "./transit_net"
+  source  = "app.terraform.io/Aviatrix-TFC-JL/transit-net/aviatrix"
+  version = "0.0.2"
   cloud_type     = 1
   region         = var.aws_region1
   account_name   = var.aws_account_name
@@ -39,7 +42,8 @@ module "aviatrix-create-transit-aws-area1" {
 }
 
 module "aviatrix-create-transit-azure-area1" {
-  source         = "./transit_net"
+  source  = "app.terraform.io/Aviatrix-TFC-JL/transit-net/aviatrix"
+  version = "0.0.2"
   cloud_type     = 8
   region         = var.azure_region1
   account_name   = var.azure_account_name
