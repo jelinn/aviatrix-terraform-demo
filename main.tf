@@ -12,7 +12,15 @@ module "aviatrix-create-avtx-vpcs-area1" {
     aws = aws.east1
   }
 }
+  
+module "vpc_gw" {
+  source  = "app.terraform.io/Aviatrix-TFC-JL/vpc-gw/aviatrix"
+  version = "0.0.2"
 
+  account_name = "test"
+  avx_transit_gw = "test"
+}
+  
 module "aviatrix-create-avtx-vnets-area1" {
   source  = "app.terraform.io/Aviatrix-TFC-JL/vpc-gw/aviatrix"
   version = "0.0.2"
