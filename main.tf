@@ -58,3 +58,31 @@ resource "aviatrix_transit_gateway_peering" "test_transit_gateway_peering" {
   transit_gateway_name1 = module.aviatrix-create-transit-aws-area1.avtx_gw_name
   transit_gateway_name2 = module.aviatrix-create-transit-azure-area1.avtx_gw_name
 }
+
+module "aviatrix-create-avtx-vpcs-area2" {
+  source  = "app.terraform.io/Aviatrix-TFC-JL/vpc-gw/aviatrix"
+  version = "0.0.4"
+  cloud_type     = 1
+  region         = "us-east-2"
+  account_name   = var.aws_account_name
+  spoke_gw_size  = var.aws_spoke_gw_size
+  avx_transit_gw = module.aviatrix-create-transit-aws-area2.avtx_gw_name
+  vpc_count      = 1
+
+  providers = {
+    aws = aws.east2
+  }
+}
+  
+module "aviatrix-create-transit-aws-area2" {
+  source  = "app.terraform.io/Aviatrix-TFC-JL/transit-net/aviatrix"
+  version = "0.0.3"
+  cloud_type     = 1
+  region         = "us-east-2"
+  account_name   = var.aws_account_name
+  avtx_gw_size   = var.aws_transit_gw_size
+
+  providers = {
+    aws = aws.east2
+  }
+}
