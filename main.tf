@@ -86,3 +86,13 @@ module "aviatrix-create-transit-aws-area2" {
     aws = aws.east2
   }
 }
+
+resource "aviatrix_transit_gateway_peering" "test_transit_gateway_peering2" {
+  transit_gateway_name1 = module.aviatrix-create-transit-aws-area1.avtx_gw_name
+  transit_gateway_name2 = module.aviatrix-create-transit-aws-area2.avtx_gw_name
+}
+    
+resource "aviatrix_transit_gateway_peering" "test_transit_gateway_peering3" {
+  transit_gateway_name1 = module.aviatrix-create-transit-aws-area2.avtx_gw_name
+  transit_gateway_name2 = module.aviatrix-create-transit-azure-area1.avtx_gw_name
+}
